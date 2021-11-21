@@ -3,12 +3,12 @@
 `pip install git+https://github.com/carnarez/markdown-insert` and refer to the brilliant
 [`Python` implementation](https://github.com/Python-Markdown/markdown).
 
-This was made to allow addition to external `Markdown` and/or HTML into the current
+This was made to allow addition of external `Markdown` and/or HTML into the current
 document. Since it is processed before any rendering happens it can be used to insert
 any kind of [text] inputs; use/authorise with caution!
 
-The marker is to be read "*insert **[**line ranges (if provided, otherwise all
-lines)**]** from **(**file at this path**)**.*"
+The marker is to be read "**insert [** *line ranges (if provided, otherwise all
+lines)* **] from (** *file at this path* **)**."
 
 Example
 -------
@@ -18,7 +18,7 @@ This is the external snippet located in `/wherever/snippet.md`.
 ```python
 import markdown
 provided = '''
-# Snippet
+**Snippet:**
 
 &[1-10](/wherever/snippet.md)
 
@@ -26,7 +26,7 @@ Caption of the snippet.
 '''.strip()
 rendered = markdown.markdown(provided, extensions=[InsertExtension()])
 expected = '''
-# Snippet
+**Snippet:**
 
 This is the external snippet located in `/wherever/snippet.md`.
 
@@ -66,7 +66,7 @@ class InsertPreprocessor(Preprocessor):
         Parameters
         ----------
         ranges : str
-            Line indices or range(s) to include, *i.e.*, "1-4 7-10 22". Note the
+            Line indices or range(s) to include, *i.e.*, `"1-4 7-10 22"`. Note the
             **lines are indexed from 1** (to make it more human-readable).
 
         Returns
