@@ -9,8 +9,8 @@ This was made to allow addition to external `Markdown` and/or HTML into the curr
 document. Since it is processed before any rendering happens it can be used to insert
 any kind of [text] inputs; use/authorise with caution!
 
-The marker is to be read "insert [line ranges (if provided, otherwise all lines)] from
-(file at path)."
+The marker is to be read "*insert **[**line ranges (if provided, otherwise all
+lines)**]** from **(**file at this path**)**.*"
 
 **Example:**
 

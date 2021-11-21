@@ -7,8 +7,8 @@ This was made to allow addition to external `Markdown` and/or HTML into the curr
 document. Since it is processed before any rendering happens it can be used to insert
 any kind of [text] inputs; use/authorise with caution!
 
-The marker is to be read "insert [line ranges (if provided, otherwise all lines)] from
-(file at path)."
+The marker is to be read "*insert **[**line ranges (if provided, otherwise all
+lines)**]** from **(**file at this path**)**.*"
 
 Example
 -------
@@ -80,11 +80,11 @@ class InsertPreprocessor(Preprocessor):
         for r in ranges.strip().split():
             try:
                 i, j = tuple(map(int, r.split("-")))
-                for l in range(i - 1, j):
-                    indices.append(l)
+                for n in range(i - 1, j):
+                    indices.append(n)
             except ValueError:
-                l = int(r)  # check for nan
-                indices.append(l - 1)
+                n = int(r)  # check for nan
+                indices.append(n - 1)
 
         return indices
 
