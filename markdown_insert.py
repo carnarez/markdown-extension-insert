@@ -41,7 +41,9 @@ Notes
   allowed in front/back, but no other text.
 * This implementation is rather simplistic, check
   [`markdown-include`](https://github.com/cmacmackin/markdown-include) for a more
-  flexible handling of inserts (via a different syntax).
+  flexible handling of inserts (via a different syntax), or the
+  [extension](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/)
+  from the [`pymdownx` collection](https://facelessuser.github.io/pymdown-extensions/).
 """
 
 import re
@@ -79,7 +81,7 @@ class InsertPreprocessor(Preprocessor):
 
         for r in ranges.strip().split():
             try:
-                i, j = tuple(map(int, r.split("-")))
+                i, j = tuple(map(int, r.split("-")))  # check for nan
                 for n in range(i - 1, j):
                     indices.append(n)
             except ValueError:
@@ -91,7 +93,7 @@ class InsertPreprocessor(Preprocessor):
     def run(self, lines: typing.List[str]) -> typing.List[str]:
         r"""Overwritten method to process the input `Markdown` lines.
 
-        Paramaters
+        Parameters
         ----------
         lines : typing.List[str]
             `Markdown` content (split by `\n`).
@@ -102,6 +104,11 @@ class InsertPreprocessor(Preprocessor):
             Same list of lines, but processed (*e.g.*, containing the inserted content).
             The leading spacing -taken from the marker- is conserved for each inserted
             line.
+
+        Notes
+        -----
+        * *One per line!*
+        * The current implementation allows inserting *within triple-quoted blocks*.
         """
         extended_lines: typing.List[str] = []
 

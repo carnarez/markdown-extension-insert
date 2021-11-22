@@ -44,7 +44,9 @@ assert rendered == expected
   allowed in front/back, but no other text.
 - This implementation is rather simplistic, check
   [`markdown-include`](https://github.com/cmacmackin/markdown-include) for a more
-  flexible handling of inserts (via a different syntax).
+  flexible handling of inserts (via a different syntax), or the
+  [extension](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/)
+  from the [`pymdownx` collection](https://facelessuser.github.io/pymdown-extensions/).
 
 **Classes:**
 
@@ -101,7 +103,7 @@ run(lines: typing.List[str]) -> typing.List[str]:
 
 Overwritten method to process the input `Markdown` lines.
 
-**Paramaters:**
+**Parameters:**
 
 - `lines` \[`typing.List[str]`\]: `Markdown` content (split by `\n`).
 
@@ -110,6 +112,11 @@ Overwritten method to process the input `Markdown` lines.
 - \[`typing.List[str]`\]: Same list of lines, but processed (*e.g.*, containing the
   inserted content). The leading spacing -taken from the marker- is conserved for each
   inserted line.
+
+**Notes:**
+
+- *One per line!*
+- The current implementation allows inserting *within triple-quoted blocks*.
 
 ### `markdown_insert.InsertExtension`
 
