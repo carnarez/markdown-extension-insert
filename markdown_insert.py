@@ -113,7 +113,7 @@ class InsertPreprocessor(Preprocessor):
         extended_lines = []
 
         for line in lines:
-            match = list(re.finditer(r"^(\s+?)&\[(.+?)\]\((.+?)\)$", line))
+            match = list(re.finditer(r"^(\s*?)&\[(.*?)\]\((.+?)\)$", line))
 
             if match:
                 spc, rng, src = match[0].groups()
@@ -143,8 +143,8 @@ class InsertExtension(Extension):
         Notes
         -----
         Since we are abusing the `Markdown` link syntax the preprocessor needs to be
-        called with a high priority (110).
+        called with a high priority (100).
         """
         md.preprocessors.register(
-            InsertPreprocessor(md), name="insert-snippet", priority=110
+            InsertPreprocessor(md), name="insert-snippet", priority=100
         )
