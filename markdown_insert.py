@@ -110,13 +110,13 @@ class InsertPreprocessor(Preprocessor):
         * *One per line!*
         * The current implementation allows inserting *within triple-quoted blocks*.
         """
-        extended_lines: typing.List[str] = []
+        extended_lines = []
 
         for line in lines:
-            match = list(re.finditer(r"^(\s+?)&\[(.+?)\]\((.+?)\)$", line))[0]
+            match = list(re.finditer(r"^(\s+?)&\[(.+?)\]\((.+?)\)$", line))
 
             if match:
-                spc, rng, src = match.groups()
+                spc, rng, src = match[0].groups()
                 indices = self.expand_indices(rng)
 
                 for i, line in enumerate(open(src).readlines()):
