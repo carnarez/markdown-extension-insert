@@ -149,4 +149,4 @@ Overwritten method to process the content.
 **Notes:**
 
 Since we are abusing the `Markdown` link syntax the preprocessor needs to be called with
-a high priority (100).
+a high priority (110).

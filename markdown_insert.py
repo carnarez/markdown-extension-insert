@@ -143,8 +143,8 @@ class InsertExtension(Extension):
         Notes
         -----
         Since we are abusing the `Markdown` link syntax the preprocessor needs to be
-        called with a high priority (100).
+        called with a high priority (110).
         """
         md.preprocessors.register(
-            InsertPreprocessor(md), name="insert-snippet", priority=100
+            InsertPreprocessor(md), name="insert-snippet", priority=110
         )
