@@ -46,7 +46,7 @@ assert rendered == expected
   [`markdown-include`](https://github.com/cmacmackin/markdown-include) for a more
   flexible handling of inserts (via a different syntax), or the
   [extension](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/)
-  from the [`pymdownx` collection](https://facelessuser.github.io/pymdown-extensions/).
+  from the [`pymdown` collection](https://facelessuser.github.io/pymdown-extensions/).
 
 **Classes:**
 
