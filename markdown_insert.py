@@ -61,8 +61,16 @@ class InsertPreprocessor(Preprocessor):
     regular processing of the `Markdown` content.
     """
 
-    def __init__(self, md, config):
+    def __init__(self, md: Markdown, config: typing.Dict[str, str] = {}):
         """Forward the configuration of the extension.
+
+        Parameters
+        ----------
+        md : markdown.core.Markdown
+            The internal `Markdown` object associated with the document to render.
+        config : typing.Dict[str, str]
+            Dictionary of the extension configuration options. Defaults to an empty
+            dictionary.
 
         Attributes
         ----------
@@ -144,7 +152,7 @@ class InsertExtension(Extension):
     """Extension proper, to be imported when calling for the `Markdown` renderer."""
 
     def __init__(self, **kwargs):
-        """.
+        """Build the configuration option dictionary.
 
         Attributes
         ----------

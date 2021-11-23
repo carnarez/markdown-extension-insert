@@ -70,8 +70,21 @@ processing of the `Markdown` content.
 #### Constructor
 
 ```python
-InsertPreprocessor()
+InsertPreprocessor(md: Markdown, config: typing.Dict[str, str])
 ```
+
+Forward the configuration of the extension.
+
+**Parameters:**
+
+- `md` \[`markdown.core.Markdown`\]: The internal `Markdown` object associated with the
+  document to render.
+- `config` \[`typing.Dict[str, str]`\]: Dictionary of the extension configuration
+  options. Defaults to an empty dictionary.
+
+**Attributes:**
+
+- `parent_path` \[`str`\]: Path to base the insert from.
 
 #### Methods
 
@@ -129,8 +142,15 @@ Extension proper, to be imported when calling for the `Markdown` renderer.
 #### Constructor
 
 ```python
-InsertExtension()
+InsertExtension(**kwargs)
 ```
+
+Build the configuration option dictionary.
+
+**Attributes:**
+
+- `config` \[`typing.Dict[str, typing.List[str]]`\]: List of configuration options (and
+  associated default values) for the extension.
 
 #### Methods
 
