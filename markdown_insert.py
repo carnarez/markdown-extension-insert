@@ -61,6 +61,17 @@ class InsertPreprocessor(Preprocessor):
     regular processing of the `Markdown` content.
     """
 
+    def __init__(self, md, config):
+        """Forward the configuration of the extension.
+
+        Attributes
+        ----------
+        parent_path : str
+            Path to base the insert from.
+        """
+        super(InsertPreprocessor, self).__init__(md)
+        self.parent_path = config["parent_path"]
+
     @staticmethod
     def expand_indices(ranges: str) -> typing.List[int]:
         """Expand a textual description of line range(s) to indices.
@@ -119,7 +130,7 @@ class InsertPreprocessor(Preprocessor):
                 spc, rng, src = match[0].groups()
                 indices = self.expand_indices(rng)
 
-                for i, line in enumerate(open(src).readlines()):
+                for i, line in enumerate(open(f"{self.parent_path}/{src}").readlines()):
                     if not indices or i in indices:
                         extended_lines.append(f"{spc}{line.strip()}")
 
@@ -131,6 +142,18 @@ class InsertPreprocessor(Preprocessor):
 
 class InsertExtension(Extension):
     """Extension proper, to be imported when calling for the `Markdown` renderer."""
+
+    def __init__(self, **kwargs):
+        """.
+
+        Attributes
+        ----------
+        config : typing.Dict[str, typing.List[str]]
+            List of configuration options (and associated default values) for the
+            extension.
+        """
+        self.config = {"parent_path": [".", "Path to base the insert from."]}
+        super(InsertExtension, self).__init__(**kwargs)
 
     def extendMarkdown(self, md: Markdown):
         """Overwritten method to process the content.
@@ -146,5 +169,7 @@ class InsertExtension(Extension):
         called with a high priority (100).
         """
         md.preprocessors.register(
-            InsertPreprocessor(md), name="insert-snippet", priority=100
+            InsertPreprocessor(md, self.getConfigs()),
+            name="insert-snippet",
+            priority=100,
         )
