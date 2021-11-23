@@ -84,7 +84,8 @@ Forward the configuration of the extension.
 
 **Attributes:**
 
-- `parent_path` \[`str`\]: Path to base the insert from.
+- `parent_path` \[`str`\]: Path to base the inserts from (allowing relative paths in the
+  source document).
 
 #### Methods
 

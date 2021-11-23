@@ -75,7 +75,8 @@ class InsertPreprocessor(Preprocessor):
         Attributes
         ----------
         parent_path : str
-            Path to base the insert from.
+            Path to base the inserts from (allowing relative paths in the source
+            document).
         """
         super(InsertPreprocessor, self).__init__(md)
         self.parent_path = config["parent_path"]
@@ -160,7 +161,7 @@ class InsertExtension(Extension):
             List of configuration options (and associated default values) for the
             extension.
         """
-        self.config = {"parent_path": [".", "Path to base the insert from."]}
+        self.config = {"parent_path": [".", "Path to base the inserts from."]}
         super(InsertExtension, self).__init__(**kwargs)
 
     def extendMarkdown(self, md: Markdown):
