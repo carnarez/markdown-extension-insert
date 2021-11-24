@@ -50,8 +50,10 @@ assert rendered == expected
 
 **Classes:**
 
-- [`InsertPreprocessor`](#markdown_insertinsertpreprocessor)
-- [`InsertExtension`](#markdown_insertinsertextension)
+- [`InsertPreprocessor`](#markdown_insertinsertpreprocessor): Preprocessor to catch and
+  replace the `&[]()` markers.
+- [`InsertExtension`](#markdown_insertinsertextension): Extension proper, to be imported
+  when calling for the `Markdown` renderer.
 
 ## Classes
 
@@ -64,8 +66,10 @@ processing of the `Markdown` content.
 
 **Methods:**
 
-- [`expand_indices()`](#markdown_insertinsertpreprocessorexpand_indices)
-- [`run()`](#markdown_insertinsertpreprocessorrun)
+- [`expand_indices()`](#markdown_insertinsertpreprocessorexpand_indices): Expand a
+  textual description of line range(s) to indices.
+- [`run()`](#markdown_insertinsertpreprocessorrun): Overwritten method to process the
+  input `Markdown` lines.
 
 #### Constructor
 
@@ -138,7 +142,8 @@ Extension proper, to be imported when calling for the `Markdown` renderer.
 
 **Methods:**
 
-- [`extendMarkdown()`](#markdown_insertinsertextensionextendmarkdown)
+- [`extendMarkdown()`](#markdown_insertinsertextensionextendmarkdown): Overwritten
+  method to process the content.
 
 #### Constructor
 

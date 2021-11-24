@@ -47,6 +47,7 @@ Notes
 """
 
 import re
+import sys
 import typing
 
 from markdown.core import Markdown
@@ -139,9 +140,14 @@ class InsertPreprocessor(Preprocessor):
                 spc, rng, src = match[0].groups()
                 indices = self.expand_indices(rng)
 
-                for i, line in enumerate(open(f"{self.parent_path}/{src}").readlines()):
-                    if not indices or i in indices:
-                        extended_lines.append(f"{spc}{line.strip()}")
+                try:
+                    for i, line in enumerate(
+                        open(f"{self.parent_path}/{src}").readlines()
+                    ):
+                        if not indices or i in indices:
+                            extended_lines.append(f"{spc}{line.strip()}")
+                except FileNotFoundError:
+                    sys.stderr.write(f'"{self.parent_path}/{src}" does not exist.\n')
 
             else:
                 extended_lines.append(line)
