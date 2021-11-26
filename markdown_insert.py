@@ -147,7 +147,9 @@ class InsertPreprocessor(Preprocessor):
                         if not indices or i in indices:
                             extended_lines.append(f"{spc}{line.strip()}")
                 except FileNotFoundError:
-                    sys.stderr.write(f'"{self.parent_path}/{src}" does not exist.\n')
+                    sys.stderr.write(
+                        f'Error: "{self.parent_path}/{src}" does not exist.\n'
+                    )
 
             else:
                 extended_lines.append(line)
