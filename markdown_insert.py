@@ -148,7 +148,7 @@ class InsertPreprocessor(Preprocessor):
                             extended_lines.append(f"{spc}{line.strip()}")
                 except FileNotFoundError:
                     sys.stderr.write(
-                        f'Error: "{self.parent_path}/{src}" does not exist.\n'
+                        f'ERROR: "{self.parent_path}/{src}" does not exist.\n'
                     )
 
             else:
