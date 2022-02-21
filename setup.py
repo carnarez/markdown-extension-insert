@@ -8,7 +8,7 @@ setuptools.setup(
     install_requires=["markdown"],
     name="markdown-insert",
     packages=["markdown_insert"],
-    package_data={"markdown_insert": ["*.pyi", "py.typed"]},
+    package_data={"markdown_insert": ["py.typed"]},
     url="https://github.com/carnarez/markdown-insert",
     version="0.0.1",
 )

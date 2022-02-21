@@ -48,7 +48,6 @@ Notes
 
 import re
 import sys
-import typing
 
 from markdown.core import Markdown
 from markdown.extensions import Extension
@@ -62,14 +61,14 @@ class InsertPreprocessor(Preprocessor):
     regular processing of the `Markdown` content.
     """
 
-    def __init__(self, md: Markdown, config: typing.Dict[str, str] = {}):
+    def __init__(self, md: Markdown, config: dict[str, str] = {}):
         """Forward the configuration of the extension.
 
         Parameters
         ----------
         md : markdown.core.Markdown
             The internal `Markdown` object associated with the document to render.
-        config : typing.Dict[str, str]
+        config : dict[str, str]
             Dictionary of the extension configuration options. Defaults to an empty
             dictionary.
 
@@ -83,7 +82,7 @@ class InsertPreprocessor(Preprocessor):
         self.parent_path = config["parent_path"]
 
     @staticmethod
-    def expand_indices(ranges: str) -> typing.List[int]:
+    def expand_indices(ranges: str) -> list[int]:
         """Expand a textual description of line range(s) to indices.
 
         Parameters
@@ -94,11 +93,11 @@ class InsertPreprocessor(Preprocessor):
 
         Returns
         -------
-        : typing.List[int]
+        : list[int]
             List of all indices to consider, 0-based for `Python`. The example from
             above would return: `[0, 1, 2, 3, 6, 7, 8, 9, 21]`.
         """
-        indices: typing.List[int] = []
+        indices: list[int] = []
 
         for r in ranges.strip().split():
             try:
@@ -111,17 +110,17 @@ class InsertPreprocessor(Preprocessor):
 
         return indices
 
-    def run(self, lines: typing.List[str]) -> typing.List[str]:
+    def run(self, lines: list[str]) -> list[str]:
         r"""Overwritten method to process the input `Markdown` lines.
 
         Parameters
         ----------
-        lines : typing.List[str]
+        lines : list[str]
             `Markdown` content (split by `\n`).
 
         Returns
         -------
-        : typing.List[str]
+        : list[str]
             Same list of lines, but processed (*e.g.*, containing the inserted content).
             The leading spacing -taken from the marker- is conserved for each inserted
             line.
@@ -165,7 +164,7 @@ class InsertExtension(Extension):
 
         Attributes
         ----------
-        config : typing.Dict[str, typing.List[str]]
+        config : dict[str, list[str]]
             List of configuration options (and associated default values) for the
             extension.
         """
