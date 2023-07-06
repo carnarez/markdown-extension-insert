@@ -12,7 +12,7 @@ any kind of \[text\] inputs; use/authorise with caution!
 The marker is to be read "**insert \[** *line ranges (if provided, otherwise all lines)*
 **\] from (** *file at this path* **)**."
 
-**Example:**
+## Example:
 
 ```markdown
 This is the external snippet located in `/wherever/snippet.md`.
@@ -38,7 +38,7 @@ Caption of the snippet.
 assert rendered == expected
 ```
 
-**Notes:**
+## Notes:
 
 - The marker needs to be on its own line, by itself. Any number of spacing character is
   allowed in front/back, but no other text.
@@ -48,7 +48,7 @@ assert rendered == expected
   [extension](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/)
   from the [`pymdown` collection](https://facelessuser.github.io/pymdown-extensions/).
 
-**Classes:**
+**Classes**
 
 - [`InsertPreprocessor`](#markdown_insertinsertpreprocessor): Preprocessor to catch and
   replace the `&[]()` markers.
@@ -64,7 +64,7 @@ Preprocessor to catch and replace the `&[]()` markers.
 We are here abusing the `Markdown` link syntax; we need to run it *before* the regular
 processing of the `Markdown` content.
 
-**Methods:**
+**Methods**
 
 - [`expand_indices()`](#markdown_insertinsertpreprocessorexpand_indices): Expand a
   textual description of line range(s) to indices.
@@ -74,19 +74,19 @@ processing of the `Markdown` content.
 #### Constructor
 
 ```python
-InsertPreprocessor(md: Markdown, config: typing.Dict[str, str])
+InsertPreprocessor(md: Markdown, config: dict[str, str] | None = None)
 ```
 
 Forward the configuration of the extension.
 
-**Parameters:**
+**Parameters**
 
 - `md` \[`markdown.core.Markdown`\]: The internal `Markdown` object associated with the
   document to render.
-- `config` \[`typing.Dict[str, str]`\]: Dictionary of the extension configuration
-  options. Defaults to an empty dictionary.
+- `config` \[`dict[str, str]`\]: Dictionary of the extension configuration options.
+  Defaults to `None`.
 
-**Attributes:**
+**Attributes**
 
 - `parent_path` \[`str`\]: Path to base the inserts from (allowing relative paths in the
   source document).
@@ -96,42 +96,42 @@ Forward the configuration of the extension.
 ##### `markdown_insert.InsertPreprocessor.expand_indices`
 
 ```python
-expand_indices(ranges: str) -> typing.List[int]:
+expand_indices(ranges: str) -> list[int]:
 ```
 
 Expand a textual description of line range(s) to indices.
 
-**Parameters:**
+**Parameters**
 
 - `ranges` \[`str`\]: Line indices or range(s) to include, *i.e.*, `"1-4 7-10 22"`. Note
   the **lines are indexed from 1** (to make it more human-readable).
 
-**Returns:**
+**Returns**
 
-- \[`typing.List[int]`\]: List of all indices to consider, 0-based for `Python`. The
-  example from above would return: `[0, 1, 2, 3, 6, 7, 8, 9, 21]`.
+- \[`list[int]`\]: List of all indices to consider, 0-based for `Python`. The example
+  from above would return: `[0, 1, 2, 3, 6, 7, 8, 9, 21]`.
 
 **Decoration** via `@staticmethod`.
 
 ##### `markdown_insert.InsertPreprocessor.run`
 
 ```python
-run(lines: typing.List[str]) -> typing.List[str]:
+run(lines: list[str]) -> list[str]:
 ```
 
 Overwritten method to process the input `Markdown` lines.
 
-**Parameters:**
+**Parameters**
 
-- `lines` \[`typing.List[str]`\]: `Markdown` content (split by `\n`).
+- `lines` \[`list[str]`\]: `Markdown` content (split by `\n`).
 
-**Returns:**
+**Returns**
 
-- \[`typing.List[str]`\]: Same list of lines, but processed (*e.g.*, containing the
-  inserted content). The leading spacing -taken from the marker- is conserved for each
-  inserted line.
+- \[`list[str]`\]: Same list of lines, but processed (*e.g.*, containing the inserted
+  content). The leading spacing -taken from the marker- is conserved for each inserted
+  line.
 
-**Notes:**
+**Notes**
 
 - *One per line!*
 - The current implementation allows inserting *within triple-quoted blocks*.
@@ -140,7 +140,7 @@ Overwritten method to process the input `Markdown` lines.
 
 Extension proper, to be imported when calling for the `Markdown` renderer.
 
-**Methods:**
+**Methods**
 
 - [`extendMarkdown()`](#markdown_insertinsertextensionextendmarkdown): Overwritten
   method to process the content.
@@ -148,31 +148,30 @@ Extension proper, to be imported when calling for the `Markdown` renderer.
 #### Constructor
 
 ```python
-InsertExtension(**kwargs)
+InsertExtension(path: str = ".", **kwargs)
 ```
 
 Build the configuration option dictionary.
 
-**Attributes:**
+**Attributes**
 
-- `config` \[`typing.Dict[str, typing.List[str]]`\]: List of configuration options (and
-  associated default values) for the extension.
+path: str Extra path prefix to add when fishing for the inserted file. Defaults to `.`.
 
 #### Methods
 
 ##### `markdown_insert.InsertExtension.extendMarkdown`
 
 ```python
-extendMarkdown(md: Markdown):
+extendMarkdown(md: Markdown) -> None:
 ```
 
 Overwritten method to process the content.
 
-**Parameters:**
+**Parameters**
 
 - `md` \[`markdown.core.Markdown`\]: Internal `Markdown` object to process.
 
-**Notes:**
+**Notes**
 
 Since we are abusing the `Markdown` link syntax the preprocessor needs to be called with
 a high priority (100).

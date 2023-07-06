@@ -10,7 +10,7 @@ any kind of [text] inputs; use/authorise with caution!
 The marker is to be read "**insert [** *line ranges (if provided, otherwise all
 lines)* **] from (** *file at this path* **)**."
 
-Example
+Example:
 -------
 ```markdown
 This is the external snippet located in `/wherever/snippet.md`.
@@ -35,7 +35,7 @@ Caption of the snippet.
 assert rendered == expected
 ```
 
-Notes
+Notes:
 -----
 * The marker needs to be on its own line, by itself. Any number of spacing character is
   allowed in front/back, but no other text.
@@ -44,8 +44,10 @@ Notes
   flexible handling of inserts (via a different syntax), or the
   [extension](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/)
   from the [`pymdown` collection](https://facelessuser.github.io/pymdown-extensions/).
+
 """
 
+import pathlib
 import re
 import sys
 
@@ -61,7 +63,7 @@ class InsertPreprocessor(Preprocessor):
     regular processing of the `Markdown` content.
     """
 
-    def __init__(self, md: Markdown, config: dict[str, str] = {}):
+    def __init__(self, md: Markdown, config: dict[str, str] | None = None) -> None:
         """Forward the configuration of the extension.
 
         Parameters
@@ -69,8 +71,7 @@ class InsertPreprocessor(Preprocessor):
         md : markdown.core.Markdown
             The internal `Markdown` object associated with the document to render.
         config : dict[str, str]
-            Dictionary of the extension configuration options. Defaults to an empty
-            dictionary.
+            Dictionary of the extension configuration options. Defaults to `None`.
 
         Attributes
         ----------
@@ -78,8 +79,8 @@ class InsertPreprocessor(Preprocessor):
             Path to base the inserts from (allowing relative paths in the source
             document).
         """
-        super(InsertPreprocessor, self).__init__(md)
-        self.parent_path = config["parent_path"]
+        super().__init__(md)
+        self.parent_path = "" if config is None else config["parent_path"]
 
     @staticmethod
     def expand_indices(ranges: str) -> list[int]:
@@ -140,14 +141,13 @@ class InsertPreprocessor(Preprocessor):
                 indices = self.expand_indices(rng)
 
                 try:
-                    for i, line in enumerate(
-                        open(f"{self.parent_path}/{src}").readlines()
-                    ):
-                        if not indices or i in indices:
-                            extended_lines.append(f"{spc}{line.strip()}")
+                    with pathlib.Path(f"{self.parent_path}/{src}").open() as f:
+                        for i, l in enumerate(f.readlines()):
+                            if not indices or i in indices:
+                                extended_lines.append(f"{spc}{l.strip()}")
                 except FileNotFoundError:
                     sys.stderr.write(
-                        f'ERROR: "{self.parent_path}/{src}" does not exist.\n'
+                        f'ERROR: "{self.parent_path}/{src}" does not exist.\n',
                     )
 
             else:
@@ -159,19 +159,19 @@ class InsertPreprocessor(Preprocessor):
 class InsertExtension(Extension):
     """Extension proper, to be imported when calling for the `Markdown` renderer."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, path: str = ".", **kwargs) -> None:
         """Build the configuration option dictionary.
 
         Attributes
         ----------
-        config : dict[str, list[str]]
-            List of configuration options (and associated default values) for the
-            extension.
+        path: str
+            Extra path prefix to add when fishing for the inserted file. Defaults to
+            `.`.
         """
-        self.config = {"parent_path": [".", "Path to base the inserts from."]}
-        super(InsertExtension, self).__init__(**kwargs)
+        self.config = {"parent_path": [path, "Path to base the inserts from."]}
+        super().__init__(**kwargs)
 
-    def extendMarkdown(self, md: Markdown):
+    def extendMarkdown(self, md: Markdown) -> None:
         """Overwritten method to process the content.
 
         Parameters
