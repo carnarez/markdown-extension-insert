@@ -78,6 +78,7 @@ class InsertPreprocessor(Preprocessor):
         parent_path : str
             Path to base the inserts from (allowing relative paths in the source
             document).
+
         """
         super().__init__(md)
         self.parent_path = "" if config is None else config["parent_path"]
@@ -97,6 +98,7 @@ class InsertPreprocessor(Preprocessor):
         : list[int]
             List of all indices to consider, 0-based for `Python`. The example from
             above would return: `[0, 1, 2, 3, 6, 7, 8, 9, 21]`.
+
         """
         indices: list[int] = []
 
@@ -130,6 +132,7 @@ class InsertPreprocessor(Preprocessor):
         -----
         * *One per line!*
         * The current implementation allows inserting *within triple-quoted blocks*.
+
         """
         extended_lines = []
 
@@ -167,6 +170,7 @@ class InsertExtension(Extension):
         path: str
             Extra path prefix to add when fishing for the inserted file. Defaults to
             `.`.
+
         """
         self.config = {"parent_path": [path, "Path to base the inserts from."]}
         super().__init__(**kwargs)
@@ -183,6 +187,7 @@ class InsertExtension(Extension):
         -----
         Since we are abusing the `Markdown` link syntax the preprocessor needs to be
         called with a high priority (100).
+
         """
         md.preprocessors.register(
             InsertPreprocessor(md, self.getConfigs()),
